@@ -7,7 +7,7 @@ client = discord.Client()
 async def on_ready():
 	print('log in')
 	print(client.user.name)
-	print(client.id)
+	print(client.user.id)
 
 @client.event
 async def on_message(message):
