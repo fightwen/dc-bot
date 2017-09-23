@@ -13,7 +13,7 @@ async def on_ready():
 async def on_message(message):
 	if(message.content == "Hello"):
 		await client.send_message(message.channel,"World")
-	if(message.content == "i!hope"):
-		await client.send_message(message.author,"test!!!!")
+	if(message.content.startswith('i!hope')): 
+		await client.send_message(message.author,"test!!!!"+client.get_all_members())
 
 client.run("MzUxMjUzOTEwMDU4Njk2NzA0.DIP61Q.DVeU9oIP6a37n7xgdZO7zgJzW-k")
