@@ -6,7 +6,14 @@ def is_hope_channel(message):
 def is_all_color_roles(role_name):
 	if "*" in role_name:
 		return True
-	return False 
+	return False
+
+def check_all_color_roles_list(roles):
+	for arole in roles:
+		name = arole.name
+		if(is_all_color_roles(name)):
+			return True
+	return False
 
 def check_is_error_color_mentions(roles,mention):
 	is_error_mention = True
