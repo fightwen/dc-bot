@@ -7,9 +7,13 @@ import time
 client = discord.Client()
 ishope = False
 hope_user=[]
-text_change_color_hint = "{} 完成了點圖！獲得了更換暱稱顏色的獎勵！:rainbow: 請下指令 ``i!idcolor @顏色``"
+hope_time = 1.0
+text_change_color_hint = "{} 完成了點圖！獲得了更換暱稱顏色的獎勵！:rainbow: 請下指令 ``i!idcolor @顏色``  請注意只能更改一次，不要打錯字了:yum:"
 text_all_server_colors_hint = ":tada: 可以選的顏色："
 text_not_member_can_draw = "目前沒有人可以點圖 :sob:"
+text_error_hope_channel = "錯誤的頻道！請到點圖頻道 :stuck_out_tongue_closed_eyes:"
+text_nobody_hope = "現在根本沒人點圖 :flushed: ，但還是感謝 {0} 貢獻畫作！ :two_hearts: 感恩 {1}！ 讚嘆 {2}！"
+text_next_hope = ":bangbang: 點圖進行中，下次可點圖時間為  {} :alarm_clock:"
 
 @client.event
 async def on_ready():
@@ -28,6 +32,7 @@ async def on_message(message):
 	print(message.attachments)
 	print(message.reactions)
 	global ishope
+	global hope_time
 	if(message.content == "Hello"):
 		handle_hello(client, message)
 	if(message.content.startswith("i!color")):
@@ -37,13 +42,13 @@ async def on_message(message):
 	# check after i!hope, anyone finished picture
 	if(message.content.startswith('i!done')): 
 		if not botcheck.is_hope_channel(message):
-			await client.send_message(message.channel,
-			"error channel!!!")
+			await error_channel_msg(client, message)
 			return
 	
 		if ishope == False:
+			global text_nobody_hope
 			await client.send_message(message.channel,
-			"no hope!!!!!!")
+			text_nobody_hope.format(message.author.mention,message.author.mention,message.author.mention))
 			return
 		done_pic = message.content[len('i!done'):].strip()
 		# check attach pic and http pic
@@ -84,14 +89,18 @@ async def on_message(message):
 			await handle_color(client,msg_answer,'i!idcolor')
 
 	if(message.content.startswith('i!hope')): 
+		await client.delete_message(message)
 		if not botcheck.is_hope_channel(message):
-			await client.send_message(message.channel,
-			"error channel!!!")
+			await error_channel_msg(client, message)
 			return
+		if time.time() - hope_time >= 60*60*24:
+			ishope = False 
 
 		if ishope == True:
-			await client.send_message(message.channel,
-			"is done!!!!!!")
+			global text_next_hope
+			next_hope_time = hope_time + 60*60*24
+			next_hope_time_str = time.asctime(time.localtime(next_hope_time))
+			await client.send_message(message.channel,text_next_hope.format(next_hope_time_str))
 			return
 		hope_topic = message.content[len('i!hope'):].strip()
 		if(not hope_topic):
@@ -116,6 +125,8 @@ async def on_message(message):
 		print(new_member.status)
 		ishope = True
 		hope_user.append(new_member)
+
+		hope_time = time.time()
 		await client.send_message(message.channel,
 			"{} 許願說要 ".format(message.author.mention)+new_member.mention+" 畫 "+hope_topic)
 		
@@ -157,5 +168,9 @@ async def print_all_choose_id(client,message):
 
 	global text_all_server_colors_hint
 	await client.send_message(message.channel,text_all_server_colors_hint+role_str)
+
+async def error_channel_msg(client,message):
+	global text_error_hope_channel
+	await client.send_message(message.channel,text_error_hope_channel)
 
 client.run("MzUxMjUzOTEwMDU4Njk2NzA0.DIP61Q.DVeU9oIP6a37n7xgdZO7zgJzW-k")
