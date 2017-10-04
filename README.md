@@ -51,11 +51,13 @@
 ``輸入i!hope 主題 機器人會先刪除你的指令並發出隨機成員點圖的訊息，再一次指令則提醒下次點圖時間``
 
  ![](https://github.com/fightwen/dc-bot/blob/master/img/done.png)
+ 
  ![](https://github.com/fightwen/dc-bot/blob/master/img/idcolor.png)
 
 ``被點圖者可換暱稱顏色(保護當事人故模糊處理)``
 
 ![](https://github.com/fightwen/dc-bot/blob/master/img/error_channel.png)
+
 ``錯誤的頻道提醒``
 
 - 更新日期：2017/10/05 
