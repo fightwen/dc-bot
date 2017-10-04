@@ -6,7 +6,7 @@ import time
 import bottext
 
 client = discord.Client()
-test_mode = False
+test_mode = True
 ishope = False
 hope_user=[]
 hope_time = 1.0
@@ -125,7 +125,7 @@ async def on_message(message):
 			return
 
 		member_names = []
-		for member in client.get_all_members():
+		for member in message.server.members:
 			print(member)
 			print(member.bot)
 			if(member.bot == False 
