@@ -222,4 +222,4 @@ async def del_all_colors(client,message):
 # if test_mode:
 	# client.run("MzUxMjUzOTEwMDU4Njk2NzA0.DIP61Q.DVeU9oIP6a37n7xgdZO7zgJzW-k")
 # else:
-	client.run("MzY0MDA1MTE2NDM0NTc5NDU2.DLXirQ.BxTq4iQKodHq9Whxlsih1YPS9Ho")
+client.run("MzY0MDA1MTE2NDM0NTc5NDU2.DLXirQ.BxTq4iQKodHq9Whxlsih1YPS9Ho")
