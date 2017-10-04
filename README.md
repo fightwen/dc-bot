@@ -7,6 +7,8 @@
   <br>目前約二十幾人，最多人在線上估計十一人。
   
 - ``下午茶秘書 Bot``是為了畫友客製化的機器人，致力於鼓勵畫友練習畫更多圖，產生的各式各樣的功能。
+
+![](https://github.com/fightwen/dc-bot/blob/master/img/who.png)
   
   
 ## 許願池
@@ -35,7 +37,26 @@
    > 4.使用Linux環境 - 指令操作單一快速，不用學太多圖形畫界面的操作
    
    > 5.Discord英文文件、英文技術討論區 - 基本上就是練英文...完全沒有中文可以看，中文圈使用Discord當通訊軟體非常稀少!
-  
-  
+   
+ ![](https://github.com/fightwen/dc-bot/blob/master/img/help.png)
+ 
+ ``顯示機器人所有功能``
+ 
+ ![](https://github.com/fightwen/dc-bot/blob/master/img/rule.png)
+ 
+``輸入i!rule 機器人私訊你遊戲規則``
+
+ ![](https://github.com/fightwen/dc-bot/blob/master/img/hope.png)
+
+``輸入i!hope 主題 機器人會先刪除你的指令並發出隨機成員點圖的訊息，再一次指令則提醒下次點圖時間``
+
+ ![](https://github.com/fightwen/dc-bot/blob/master/img/done.png)
+ ![](https://github.com/fightwen/dc-bot/blob/master/img/idcolor.png)
+
+``被點圖者可換暱稱顏色(保護當事人故模糊處理)``
+
+![](https://github.com/fightwen/dc-bot/blob/master/img/error_channel.png)
+``錯誤的頻道提醒``
+
 - 更新日期：2017/10/05 
   > 目前只有許願池的功能，陸續會在增加其他的，如果有靈感的話XD
