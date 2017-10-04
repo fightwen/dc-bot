@@ -6,7 +6,7 @@ import time
 import bottext
 
 client = discord.Client()
-test_mode = True
+test_mode = False
 ishope = False
 hope_user=[]
 hope_time = 1.0
