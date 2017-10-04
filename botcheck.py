@@ -28,3 +28,10 @@ def check_contain_http_img(url):
 		if 'jpg' in url or 'png' in url or 'gif' in url:
 			return True
 	return False
+
+def check_lv1_permission(message):
+	has_permission = False
+	for role in message.author.roles:
+		if "Lv1" in role.name:
+			has_permission = True
+	return has_permission
