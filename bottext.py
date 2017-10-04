@@ -65,3 +65,9 @@ def get_server_hope_url():
 def get_text_hope_no_permission():
 	text_hope_no_permission = "{} 等級不夠，請升級Lv1，沒有指定別人點圖的權限，但是可以接受其他人的點圖任務 :thumbsup:"
 	return text_hope_no_permission
+
+def get_bot_cmd(test_mode):
+	if test_mode:
+		return "g"
+	else:
+		return "i"

@@ -17,7 +17,7 @@ async def on_ready():
 	print('log in')
 	print(client.user.name)
 	print(client.user.id)
-	await client.change_presence(game = discord.Game(name="i!help"))
+	await client.change_presence(game = discord.Game(name=bottext.get_bot_cmd(test_mode)+"!help"))
 
 @client.event
 async def on_reaction_add(reaction, user):
@@ -34,31 +34,32 @@ async def on_message(message):
 	global hope_time
 	global test_mode
 	global current_hope
+	bot_cmd = bottext.get_bot_cmd(test_mode)
 	if(message.content == "Hello"):
 		handle_hello(client, message)
-	if message.content == "i!who":
+	if message.content == bot_cmd+"!who":
 		await client.send_message(message.channel,bottext.get_text_who())
-	if message.content == "i!help":
+	if message.content == bot_cmd+"!help":
 		await client.send_message(message.channel,bottext.get_text_help())
-	if message.content == "i!rule":
+	if message.content == bot_cmd+"!rule":
 		await client.send_message(message.author,bottext.get_text_rule())
 		await client.delete_message(message)
-	if(message.content.startswith("i!color")):
+	if(message.content.startswith(bot_cmd+"!color")):
 		if not test_mode:
 			return
-		await handle_color(client, message,'i!color')
+		await handle_color(client, message,bot_cmd+'!color')
 		await print_all_choose_id(client, message)
-	if(message.content.startswith("i!idcolor x")):
+	if(message.content.startswith(bot_cmd+"!idcolor x")):
 		await del_all_colors(client,message)
 
 	# check after i!hope, anyone finished picture
-	if(message.content.startswith('i!done')): 
+	if(message.content.startswith(bot_cmd+'!done')): 
 		hope_channel_id = get_hope_channel_id(test_mode)
 		if not botcheck.is_hope_channel(message,hope_channel_id):
 			await error_channel_msg(client, message)
 			return
 
-		done_pic = message.content[len('i!done'):].strip()
+		done_pic = message.content[len(bot_cmd+'!done'):].strip()
 		# check attach pic and http pic
 		if not message.attachments and not botcheck.check_contain_http_img(done_pic):
 			print('empty pic!!')
@@ -66,7 +67,6 @@ async def on_message(message):
 			return
 	
 		if ishope == False:
-			
 			await client.send_message(message.channel,bottext.get_text_nobody_hope().format(message.author.mention,message.author.mention,message.author.mention))
 			return
 		
@@ -75,22 +75,7 @@ async def on_message(message):
 			and not botcheck.check_contain_http_img(message.attachments[0]['url'])):
 			print('upload error data!!')
 			return
-		if not hope_user:
-			print('no user')
-			return
-
-		done_bonus = False
-		print(hope_user)
-		# user who finished pic has id color changed permission
-		if message.author.mention == hope_user[0].mention:
-			done_bonus = True
-			
-		# other users have random chance
-		if message.author.mention != hope_user[0].mention:
-			bonus_chance_num = random.randint(1,10)
-			print('bonus color chance {}'.format(bonus_chance_num))
-			if bonus_chance_num == 5:
-				done_bonus = True
+		done_bonus = check_user_has_hope_bonus(message, hope_user)
 		
 		if done_bonus:
 			hope_user.clear()
@@ -98,15 +83,15 @@ async def on_message(message):
 			await client.send_message(message.channel,bottext.get_text_change_color_hint().format(message.author.mention))
 			
 			def check(message):
-				return message.content.startswith('i!idcolor') and message.author.id!=client.user.id
+				return message.content.startswith(bot_cmd+'!idcolor') and message.author.id!=client.user.id
 			msg_answer = await client.wait_for_message(timeout=60,author = message.author,check = check)
 
 			if not msg_answer:
 				print('time out!!')
 				return
-			await handle_color(client,msg_answer,'i!idcolor')
+			await handle_color(client,msg_answer,bot_cmd+'!idcolor')
 
-	if(message.content.startswith('i!hope')): 
+	if(message.content.startswith(bot_cmd+'!hope')): 
 		await client.delete_message(message)
 		hope_channel_id = get_hope_channel_id(test_mode)
 		if not botcheck.is_hope_channel(message,hope_channel_id):
@@ -128,7 +113,7 @@ async def on_message(message):
 				return
 			await client.send_message(message.channel,current_hope)
 			return
-		hope_topic = message.content[len('i!hope'):].strip()
+		hope_topic = message.content[len(bot_cmd+'!hope'):].strip()
 		if(not hope_topic):
 			print('You never choose topic!!')
 			return
@@ -217,6 +202,28 @@ async def del_all_colors(client,message):
 		print('sleep')
 		time.sleep(1)
 		pass
+
+def check_user_has_hope_bonus(message,hope_user):
+	if not hope_user:
+		print('no hope_user')
+
+	done_bonus = False
+	print(hope_user)
+
+	# other users have random chance
+	if not hope_user or message.author.mention != hope_user[0].mention:
+		bonus_chance_num = random.randint(1,10)
+		print('bonus color chance {}'.format(bonus_chance_num))
+		if bonus_chance_num == 5:
+			done_bonus = True
+
+	# user who finished pic has id color changed permission
+	if hope_user and message.author.mention == hope_user[0].mention:
+		done_bonus = True
+
+	return done_bonus
+	
+		
 
 
 if test_mode:
