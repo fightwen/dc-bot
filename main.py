@@ -15,16 +15,21 @@ text_error_hope_channel = "錯誤的頻道！請到點圖頻道 :stuck_out_tongu
 text_nobody_hope = "現在根本沒人點圖 :flushed: ，但還是感謝 {0} 貢獻畫作！ :two_hearts: 感恩 {1}！ 讚嘆 {2}！"
 text_next_hope = ":bangbang: 點圖進行中，下次可點圖時間為  {} :alarm_clock:"
 
+text_who = "__**姓名**__：下午茶秘書\n"+"__**誕生日**__：2017/10/03\n"+"__**身高**__：不明\n"+"__**喜歡**__：滿滿的大自介\n"+"__**討厭**__：等你寫自介\n"+"__**造型**__：ahmin\n https://cdn.discordapp.com/avatars/364005116434579456/e4ede0ff346a6d435ec829000c7b9841.jpg"
+text_help = "您好！我是下午茶秘書\n"+"任何活動，任何需求，看心情決定是否為您實現 :closed_book:\n" +":small_orange_diamond: ``i!help`` = 秘書處理的所有業務資料\n"+":small_blue_diamond: ``i!who``  = 秘書身家調查\n"+":small_orange_diamond: ``i!rule``  = 可獲取一份 #daily-hope 點圖許願池說明書"
+
 @client.event
 async def on_ready():
 	print('log in')
 	print(client.user.name)
 	print(client.user.id)
+	await client.change_presence(game = discord.Game(name="i!help"))
 
 @client.event
 async def on_reaction_add(reaction, user):
 	print(user.name)
 	print(reaction)
+
 
 @client.event
 async def on_message(message):
@@ -35,6 +40,12 @@ async def on_message(message):
 	global hope_time
 	if(message.content == "Hello"):
 		handle_hello(client, message)
+	if message.content == "i!who":
+		global text_who
+		await client.send_message(message.channel,text_who)
+	if message.content == "i!help":
+		global text_help
+		await client.send_message(message.channel,text_help)
 	if(message.content.startswith("i!color")):
 		await handle_color(client, message,'i!color')
 		await print_all_choose_id(client, message)
@@ -128,7 +139,7 @@ async def on_message(message):
 
 		hope_time = time.time()
 		await client.send_message(message.channel,
-			"{} 許願說要 ".format(message.author.mention)+new_member.mention+" 畫 "+hope_topic)
+			"{} 許願說要 ".format(message.author.mention) +new_member.mention+" 畫 :star2: ``"+hope_topic+"``  :star2:")
 		
 async def handle_hello(client,message):
 	await client.send_message(message.channel,"World")
