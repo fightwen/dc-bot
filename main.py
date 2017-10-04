@@ -22,6 +22,7 @@ async def on_ready():
 @client.event
 async def on_reaction_add(reaction, user):
 	print(user.name)
+	await client.change_presence(game = discord.Game(name="i!help"))
 	print(reaction)
 
 
