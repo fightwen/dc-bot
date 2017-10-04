@@ -1,5 +1,6 @@
-def is_hope_channel(message):
-	if message.channel.id == '357191670825091084':
+def is_hope_channel(message,channel_id):
+
+	if message.channel.id == channel_id:
 		return True
 	return False
 
