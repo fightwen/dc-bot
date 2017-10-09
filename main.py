@@ -6,7 +6,7 @@ import time
 import bottext
 
 client = discord.Client()
-test_mode = True
+test_mode = False
 ishope = False
 hope_user=[]
 hope_time = 1.0
@@ -77,19 +77,22 @@ async def on_message(message):
 			return
 		done_bonus = check_user_has_hope_bonus(message, hope_user)
 		
-		if done_bonus:
-			hope_user.clear()
-			await print_all_choose_id(client,message)
-			await client.send_message(message.channel,bottext.get_text_change_color_hint().format(message.author.mention))
+		if not done_bonus:
+			await client.send_message(message.channel,bottext.get_text_no_bonus().format(message.author.mention,message.author.mention,message.author.mention,message.author.mention))
+			return
 			
-			def check(message):
-				return message.content.startswith(bot_cmd+'!idcolor') and message.author.id!=client.user.id
-			msg_answer = await client.wait_for_message(timeout=60,author = message.author,check = check)
+		hope_user.clear()
+		await print_all_choose_id(client,message)
+		await client.send_message(message.channel,bottext.get_text_change_color_hint().format(message.author.mention))
+			
+		def check(message):
+			return message.content.startswith(bot_cmd+'!idcolor') and message.author.id!=client.user.id
+		msg_answer = await client.wait_for_message(timeout=60,author = message.author,check = check)
 
-			if not msg_answer:
-				print('time out!!')
-				return
-			await handle_color(client,msg_answer,bot_cmd+'!idcolor')
+		if not msg_answer:
+			print('time out!!')
+			return
+		await handle_color(client,msg_answer,bot_cmd+'!idcolor')
 
 	if(message.content.startswith(bot_cmd+'!hope')): 
 		await client.delete_message(message)
@@ -98,12 +101,12 @@ async def on_message(message):
 			await error_channel_msg(client, message)
 			return
 
-		if time.time() - hope_time >= 60*60*24:
+		if time.time() - hope_time >= 60*60*2:
 			ishope = False 
 
 		if ishope == True:
 			
-			next_hope_time = hope_time + 60*60*24
+			next_hope_time = hope_time + 60*60*2
 			next_hope_time_str = time.asctime(time.localtime(next_hope_time))
 
 			await client.send_message(message.channel,bottext.get_text_next_hope().format(next_hope_time_str))

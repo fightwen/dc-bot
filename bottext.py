@@ -18,6 +18,10 @@ def get_text_nobody_hope():
 	text_nobody_hope = "現在根本沒人點圖 :flushed: ，但還是感謝 {0} 貢獻畫作！ :two_hearts: 感恩 {1}！ 讚嘆 {2}！"
 	return text_nobody_hope
 
+def get_text_no_bonus():
+	text_nobody_hope = "{0} 完成了點圖！ 可惜沒抽中暱稱換色的機會，請再多畫幾張使用``i!done``試試看吧，感謝 {1} 貢獻畫作！ :two_hearts: 感恩 {2}！ 讚嘆 {3}！"
+	return text_nobody_hope
+
 def get_text_next_hope():
 	text_next_hope = ":bangbang: 點圖進行中，下次可點圖時間為  {} :alarm_clock:"
 	return text_next_hope
