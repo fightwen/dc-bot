@@ -1,4 +1,16 @@
 # Discord Bot
+
+```
+I regret sharing my discord bot's source code.
+It is a terrible decision. I never thought that someone would have wanted to abuse.
+This is just a little little little robot....
+
+I must tell the man who abused my discord bot.
+Ruined my server and you did NOT have any benefit to you.
+It just waste your precious time.
+```
+
+
 這是"繪畫下午茶"伺服器的機器人，名為"下午茶秘書"。
 <br>為了希望有人交流技術面的東西，因此開源了程式碼，**請不要把我的機器人token拿去使用**，不然我的機器人會失效。
 <br>想做機器人請到Discord官網自己申請一組機器人token，感謝。
