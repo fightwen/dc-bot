@@ -4,6 +4,7 @@ import random
 import botcheck
 import time
 import bottext
+import bottoken
 
 client = discord.Client()
 test_mode = False
@@ -226,5 +227,5 @@ def check_user_has_hope_bonus(message,hope_user):
 
 	return done_bonus
 	
-		
-client.run(token.get_bot_token(test_mode))
+token_string = bottoken.get_bot_token(test_mode)
+client.run(token_string)
