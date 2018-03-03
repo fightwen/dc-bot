@@ -244,6 +244,11 @@ def check_user_has_hope_bonus(message,hope_user):
 		done_bonus = True
 
 	return done_bonus
+
+def get_hope_time(test_mode):
+	if(test_mode):
+		return 1
+	return 60*60*2
 	
 token_string = bottoken.get_bot_token(test_mode)
 client.run(token_string)
