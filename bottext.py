@@ -1,5 +1,7 @@
+import discord
+
 def get_text_change_color_hint():
-	text_change_color_hint = "{} 完成了點圖！獲得了更換暱稱顏色的獎勵！:rainbow: 請下指令 ``i!idcolor @顏色號碼``  \n請注意只能更改一次，不要打錯字了:yum:\n:arrow_up_small: 一分鐘後換色權利會過期 ，請趕快選擇"
+	text_change_color_hint = "{} 完成了點圖！獲得了更換暱稱顏色的獎勵！:rainbow: 請下指令 ``i!idcolor @顏色號碼*``  \n請注意只能更改一次，不要打錯字了:yum:\n:arrow_up_small: 一分鐘後換色權利會過期 ，請趕快選擇"
 	return text_change_color_hint
 
 def get_text_all_server_colors_hint():
@@ -60,11 +62,11 @@ def get_text_rule():
 	return text_rule
 def get_text_hope_dm():
 	text_hope_dm = ":mega: {0}  您接收到點圖任務了！ 請前往伺服器 **{1}** #{2} 點圖頻道完成任務吧！:sparkles:\n "\
-	"~~(當然如果你不想....就算惹QQ)~~\n\n點選綠色勾勾圖，可快速前往點圖頻道\n {3}"
+	"~~(當然如果你不想....就算惹QQ)~~ \n\n點選伺服器連結，可快速前往點圖頻道\n {3}"
 	return text_hope_dm
 
 def get_server_hope_url():
-	return "https://discord.gg/DKfUbK7"
+	return "https://discord.gg/5GqTNXy"
 
 def get_text_hope_no_permission():
 	text_hope_no_permission = "{} 等級不夠，請升級Lv1，沒有指定別人點圖的權限，但是可以接受其他人的點圖任務 :thumbsup:"
@@ -88,6 +90,30 @@ def get_text_kaomoji():
 def get_text_emoji():
 	text_emoji = "這是 {} 抽到的 emoji，嘗試用此圖展現你的角色吧 :rofl:"
 	return text_emoji
+
+def get_text_hope_topic_msg():
+	text_hope_topic_mg = ":loudspeaker: 進行中的點圖主題： {}"
+	return text_hope_topic_mg
+
+def get_text_hope_topic_main_msg(message,new_member,hope_topic):
+	text_hope_topic_main_msg = "{} 許願說要 ".format(message.author.mention) +new_member.mention+" 畫 :star2: "+hope_topic+"  :star2:"
+	return text_hope_topic_main_msg
+
+def get_text_change_msg(is_success):
+	text_change_msg = ""
+	if(is_success):
+		text_change_msg = "暱稱換顏色成功囉！還不快讚嘆我 :kissing_heart:"
+	else:
+		text_change_msg = "唉呀~打錯指令囉！掰掰，下次再畫一張圖並輸入 ``i!done`` 試試看 :stuck_out_tongue_winking_eye:"
+	return text_change_msg
+
+def get_text_hope_palettes_msg():
+	text_hope_palettes_msg = "阿！還有**限定要用此色票卡**完成圖 :point_down:"
+	return text_hope_palettes_msg
+
+def get_text_hope_finishtip():
+	text_hope_finishtip = "別忘了畫完的圖要附上 ``i!done`` 指令才能有換取暱稱顏色的機會唷 :kissing_closed_eyes:"
+	return text_hope_finishtip
 
 def get_bot_cmd(test_mode):
 	if test_mode:

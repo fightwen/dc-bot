@@ -7,6 +7,7 @@ import bottext
 import bottoken
 import botcolor
 import botemotion
+import botmsg
 
 client = discord.Client()
 test_mode = True
@@ -64,11 +65,7 @@ async def on_message(message):
 		await botemotion.request_jp_emotion(client,message)
 	if(message.content.startswith(bot_cmd+"!emoji")):
 		await botemotion.request_gh_emotion(client,message)
-	if(message.content.startswith(bot_cmd+"!info")):
-		embed = discord.Embed(title="Tile", description="Desc", color=0x00ff00)
-		embed.add_field(name="Fiel1", value="hi")
-		embed.add_field(name="Field2", value="hi2", inline=False)
-		await client.send_message(message.channel,embed=embed)
+	
 	# check after i!hope, anyone finished picture
 	if(message.content.startswith(bot_cmd+'!done')): 
 		hope_channel_id = get_hope_channel_id(test_mode)
@@ -107,7 +104,7 @@ async def on_message(message):
 		msg_answer = await client.wait_for_message(timeout=60,author = message.author,check = check)
 
 		if not msg_answer:
-			print('time out!!')
+			print('color time out!!')
 			return
 		await handle_color(client,msg_answer,bot_cmd+'!idcolor')
 
@@ -118,12 +115,13 @@ async def on_message(message):
 			await error_channel_msg(client, message)
 			return
 
-		if time.time() - hope_time >= 60*60*2:
+		if time.time() - hope_time >= get_hope_time(test_mode):
 			ishope = False 
 
 		if ishope == True:
 			
-			next_hope_time = hope_time + 60*60*2
+			#Heroku time is from England, (8*60*60) transfer to Taiwan time
+			next_hope_time = hope_time + get_hope_time(test_mode) +8*60*60
 			next_hope_time_str = time.asctime(time.localtime(next_hope_time))
 
 			await client.send_message(message.channel,bottext.get_text_next_hope().format(next_hope_time_str))
@@ -131,9 +129,10 @@ async def on_message(message):
 			# remind user hope info again
 			if not current_hope:
 				return
-			await client.send_message(message.channel,current_hope)
+			await client.send_message(message.channel,bottext.get_text_hope_topic_msg().format(current_hope))
 			return
 		hope_topic = message.content[len(bot_cmd+'!hope'):].strip()
+
 		if(not hope_topic):
 			print('You never choose topic!!')
 			return
@@ -164,16 +163,10 @@ async def on_message(message):
 
 		hope_user.clear()
 		hope_user.append(new_member)
-
 		hope_time = time.time()
 
-		hope_info = "{} 許願說要 ".format(message.author.mention) +new_member.mention+" 畫 :star2: ``"+hope_topic+"``  :star2:"
-		await client.send_message(message.channel,hope_info)
+		current_hope = await handle_hope_send_msg(client,message,hope_topic,new_member)
 
-		hope_channel_url = bottext.get_server_hope_url()
-		await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url))
-
-		current_hope = hope_info
 		
 async def handle_hello(client,message):
 	await client.send_message(message.channel,"World")
@@ -187,6 +180,7 @@ async def handle_color(client,message,bot_command):
 		return
 	if(botcheck.check_is_error_color_mentions(message.server.roles,choose_color)):
 		print('You choose error color!!')
+		await client.send_message(message.channel,bottext.get_text_change_msg(False))
 		return
 
 	role = discord.utils.get(message.server.roles, mention=choose_color)
@@ -195,6 +189,7 @@ async def handle_color(client,message,bot_command):
 
 	print('add_roles')
 	await client.add_roles(message.author, role)
+	await client.send_message(message.channel,bottext.get_text_change_msg(True))
 		
 async def print_all_choose_id(client,message):
 	role_str = ''
@@ -246,9 +241,36 @@ def check_user_has_hope_bonus(message,hope_user):
 	return done_bonus
 
 def get_hope_time(test_mode):
+	test_mode=False
 	if(test_mode):
 		return 1
 	return 60*60*2
+
+
+async def handle_hope_send_msg(client,message,hope_topic,new_member):
+	if(hope_topic.startswith('色票 ')):
+		embed = botcolor.request_palettes_embed(client,message)
+		hope_topic = hope_topic[len('色票'):].strip()
+			
+		hope_topic = botmsg.filter_hope_topic(hope_topic)
+		hope_info = bottext.get_text_hope_topic_main_msg(message,new_member,hope_topic)+'\n '+bottext.get_text_hope_palettes_msg()
+		await client.send_message(message.channel,hope_info+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
+
+		hope_channel_url = bottext.get_server_hope_url()
+		await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url)
+		+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
+			 
+
+	else:
+		hope_topic = botmsg.filter_hope_topic(hope_topic)
+		hope_info = bottext.get_text_hope_topic_main_msg(message,new_member,hope_topic)
+		await client.send_message(message.channel,hope_info)
+
+		hope_channel_url = bottext.get_server_hope_url()
+		await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url))
+	return hope_topic
+
+
 	
 token_string = bottoken.get_bot_token(test_mode)
 client.run(token_string)

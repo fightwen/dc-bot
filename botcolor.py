@@ -18,6 +18,12 @@ async def request_color(client,message):
 	await client.send_message(message.channel,embed=embed)
 
 async def request_palettes(client,message):
+	embed = request_palettes_embed(client,message)
+
+	await client.send_message(message.channel,bottext.get_text_palettes().format(message.author.mention))
+	await client.send_message(message.channel,embed=embed)
+
+def request_palettes_embed(client,message):
 	endpoint = "http://www.colourlovers.com/api/palettes/random?format=json"
 
 	response = requests.get(endpoint)
@@ -41,8 +47,7 @@ async def request_palettes(client,message):
 	embed = discord.Embed(title=':confetti_ball: 色票卡', description='色碼：'+palettes_hex, color=int(color_text[0]['colors'][0],16))
 	embed.set_image(url = color_text[0]['imageUrl'])
 
-	await client.send_message(message.channel,bottext.get_text_palettes().format(message.author.mention))
-	await client.send_message(message.channel,embed=embed)
+	return embed
 
 
 async def request_patterns(client,message):
