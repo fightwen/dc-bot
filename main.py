@@ -5,9 +5,11 @@ import botcheck
 import time
 import bottext
 import bottoken
+import botcolor
+import botemotion
 
 client = discord.Client()
-test_mode = False
+test_mode = True
 ishope = False
 hope_user=[]
 hope_time = 1.0
@@ -45,14 +47,28 @@ async def on_message(message):
 	if message.content == bot_cmd+"!rule":
 		await client.send_message(message.author,bottext.get_text_rule())
 		await client.delete_message(message)
-	if(message.content.startswith(bot_cmd+"!color")):
+	if(message.content.startswith(bot_cmd+"!ccolor")):
 		if not test_mode:
 			return
 		await handle_color(client, message,bot_cmd+'!color')
 		await print_all_choose_id(client, message)
 	if(message.content.startswith(bot_cmd+"!idcolor x")):
 		await del_all_colors(client,message)
-
+	if(message.content.startswith(bot_cmd+"!顏色")):
+		await botcolor.request_color(client,message)
+	if(message.content.startswith(bot_cmd+"!色票")):
+		await botcolor.request_palettes(client,message)
+	if(message.content.startswith(bot_cmd+"!樣式")):
+		await botcolor.request_patterns(client,message)
+	if(message.content.startswith(bot_cmd+"!顏文字")):
+		await botemotion.request_jp_emotion(client,message)
+	if(message.content.startswith(bot_cmd+"!emoji")):
+		await botemotion.request_gh_emotion(client,message)
+	if(message.content.startswith(bot_cmd+"!info")):
+		embed = discord.Embed(title="Tile", description="Desc", color=0x00ff00)
+		embed.add_field(name="Fiel1", value="hi")
+		embed.add_field(name="Field2", value="hi2", inline=False)
+		await client.send_message(message.channel,embed=embed)
 	# check after i!hope, anyone finished picture
 	if(message.content.startswith(bot_cmd+'!done')): 
 		hope_channel_id = get_hope_channel_id(test_mode)
@@ -145,6 +161,8 @@ async def on_message(message):
 		print(new_member)
 		print(new_member.status)
 		ishope = True
+
+		hope_user.clear()
 		hope_user.append(new_member)
 
 		hope_time = time.time()

@@ -69,6 +69,25 @@ def get_server_hope_url():
 def get_text_hope_no_permission():
 	text_hope_no_permission = "{} 等級不夠，請升級Lv1，沒有指定別人點圖的權限，但是可以接受其他人的點圖任務 :thumbsup:"
 	return text_hope_no_permission
+def get_text_color():
+	text_color = "這是 {} 抽到的顏色卡，畫圖的主題色就是這個囉 :kissing_heart:"
+	return text_color
+
+def get_text_palettes():
+	text_palettes = "這是 {} 抽到的色票卡，快用這些色票揮灑你的圖吧  :innocent: :heart:"
+	return text_palettes
+
+def get_text_patterns():
+	text_patterns = "這是 {} 抽到的樣式卡，照著這個樣式風格來發想你的創作吧  :relaxed: :heartpulse:"
+	return text_patterns
+
+def get_text_kaomoji():
+	text_patterns = "這是 {} 抽到的顏文字，嘗試用此表情展現你的角色吧 :rofl:"
+	return text_patterns
+
+def get_text_emoji():
+	text_emoji = "這是 {} 抽到的 emoji，嘗試用此圖展現你的角色吧 :rofl:"
+	return text_emoji
 
 def get_bot_cmd(test_mode):
 	if test_mode:
