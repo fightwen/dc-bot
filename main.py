@@ -249,16 +249,13 @@ def get_hope_time(test_mode):
 async def handle_hope_send_msg(client,message,hope_topic,new_member):
 	if(hope_topic.startswith('色票 ')):
 		embed = botcolor.request_palettes_embed(client,message)
-		hope_topic = hope_topic[len('色票'):].strip()
-			
-		hope_topic = botmsg.filter_hope_topic(hope_topic)
-		hope_info = bottext.get_text_hope_topic_main_msg(message,new_member,hope_topic)+'\n '+bottext.get_text_hope_palettes_msg()
-		await client.send_message(message.channel,hope_info+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
-
-		hope_channel_url = bottext.get_server_hope_url()
-		await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url)
-		+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
-			 
+		await handle_hope_send_type_msg(client,message,hope_topic,new_member,'色票',embed)
+	elif(hope_topic.startswith('顏色 ')):		 
+		embed = botcolor.request_color_embed(client,message)
+		await handle_hope_send_type_msg(client,message,hope_topic,new_member,'顏色',embed)
+	elif(hope_topic.startswith('樣式 ')):		 
+		embed = botcolor.request_patterns_embed(client,message)
+		await handle_hope_send_type_msg(client,message,hope_topic,new_member,'樣式',embed)
 
 	else:
 		hope_topic = botmsg.filter_hope_topic(hope_topic)
@@ -269,7 +266,16 @@ async def handle_hope_send_msg(client,message,hope_topic,new_member):
 		await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url))
 	return hope_topic
 
+async def handle_hope_send_type_msg(client,message,hope_topic,new_member,type_str,embed):
+	hope_topic = hope_topic[len(type_str):].strip()
+			
+	hope_topic = botmsg.filter_hope_topic(hope_topic)
+	hope_info = bottext.get_text_hope_topic_main_msg(message,new_member,hope_topic)+'\n '+bottext.get_text_hope_type_msg().format(type_str+'卡')
+	await client.send_message(message.channel,hope_info+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
 
+	hope_channel_url = bottext.get_server_hope_url()
+	await client.send_message(new_member,hope_info+"\n"+bottext.get_text_hope_dm().format(new_member.mention,message.server.name,message.channel.name,hope_channel_url)
+	+'\n'+bottext.get_text_hope_finishtip(),embed = embed)
 	
 token_string = bottoken.get_bot_token(test_mode)
 client.run(token_string)

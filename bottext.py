@@ -48,16 +48,22 @@ def get_text_help():
 
 def get_text_rule():
 	text_rule ="點圖許願池說明書 :ok_hand: 祝您玩得愉快。\n"\
-	"```css\n[i!hope 點圖主題]   \n"\
+	"```css"\
+	"\n[i!hope 點圖主題]   \n"\
 	"{ex: i!hope 貓咪擬人}\n\n"\
 	">  每兩小時只能一次使用 ，如果其他人使用了點圖，則需要隔兩小時才能再次點圖。\n"\
 	"(請慎選你的點圖主題。選錯送出無法改)\n會隨機指定出目前在線上的用戶完成點圖，如果想被點到者，狀態必須是線上。\n"\
-	"(非閒置、離線、勿擾狀態)\n\n[i!done 圖片網址或是圖片附件] \n"\
+	"(非閒置、離線、勿擾狀態)\n\n"\
+	"[i!hope 類型 點圖主題]   \n"\
+	"{ex: i!hope 色票 貓咪擬人}\n\n"\
+	">  i!hope進階版，會依據類型隨機顯示類型的卡片，例如色票就隨機產生色票卡。\n"\
+	">  可以用的類型：色票、顏色、樣式\n\n"\
+	"[i!done 圖片網址或是圖片附件] \n"\
 	"{ex: i!done https://images.xxxxxx.jpg}\n\n"\
 	">  點圖畫好了使用的指令，圖附檔名必須是 ``jpg`` `` png`` `` gif``，如果你是被點到的對象，可獲得一次改暱稱顏色的機會，如果不是，使用此指令還是會隨機獲得一次改暱稱顏色的機會。\n\n"\
 	"--------------------------------------------------------\n"\
 	"任何作弊行為會被視為病毒永久隔離( ×ω× ) ex.發與點圖無關的圖、重複洗頻、發偷懶圖(!?)...等等 \n如果有問題請洽詢 [@紅茶拿鐵(ac)#2450]\n"\
-	"被點到者可以選擇不用畫\n沒有換暱稱顏色的需求，就不用特別下指令，直接把點圖畫作放 #daily-hope 即可\n"\
+	"被點到者可以選擇不用畫\n沒有換暱稱顏色的需求，就不用特別下指令，直接把點圖畫作放 #2hours-hope 即可\n"\
 	"--------------------------------------------------------```"
 	return text_rule
 def get_text_hope_dm():
@@ -107,9 +113,9 @@ def get_text_change_msg(is_success):
 		text_change_msg = "唉呀~打錯指令囉！掰掰，下次再畫一張圖並輸入 ``i!done`` 試試看 :stuck_out_tongue_winking_eye:"
 	return text_change_msg
 
-def get_text_hope_palettes_msg():
-	text_hope_palettes_msg = "阿！還有**限定要用此色票卡**完成圖 :point_down:"
-	return text_hope_palettes_msg
+def get_text_hope_type_msg():
+	text_hope_type_msg = "阿！還有**限定要用此 {} **完成圖 :point_down:"
+	return text_hope_type_msg
 
 def get_text_hope_finishtip():
 	text_hope_finishtip = "別忘了畫完的圖要附上 ``i!done`` 指令才能有換取暱稱顏色的機會唷 :kissing_closed_eyes:"

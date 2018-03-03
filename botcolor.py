@@ -4,6 +4,12 @@ import discord
 import bottext
 
 async def request_color(client,message):
+	embed = request_color_embed(client,message)
+
+	await client.send_message(message.channel,bottext.get_text_color().format(message.author.mention))
+	await client.send_message(message.channel,embed=embed)
+
+def request_color_embed(client,message):
 	endpoint = "http://www.colourlovers.com/api/colors/random?format=json"
 
 	response = requests.get(endpoint)
@@ -13,9 +19,7 @@ async def request_color(client,message):
 	print(color_text[0]['imageUrl'])
 	embed = discord.Embed(title=':dividers: 顏色卡', description='色碼：'+color_text[0]['hex'], color=int(color_text[0]['hex'],16))
 	embed.set_image(url = color_text[0]['imageUrl'])
-
-	await client.send_message(message.channel,bottext.get_text_color().format(message.author.mention))
-	await client.send_message(message.channel,embed=embed)
+	return embed
 
 async def request_palettes(client,message):
 	embed = request_palettes_embed(client,message)
@@ -51,6 +55,13 @@ def request_palettes_embed(client,message):
 
 
 async def request_patterns(client,message):
+	
+	embed = request_patterns_embed(client,message)
+
+	await client.send_message(message.channel,bottext.get_text_patterns().format(message.author.mention))
+	await client.send_message(message.channel,embed=embed)
+
+def request_patterns_embed(client,message):
 	endpoint = "http://www.colourlovers.com/api/patterns/random?format=json"
 
 	response = requests.get(endpoint)
@@ -74,8 +85,6 @@ async def request_patterns(client,message):
 	embed = discord.Embed(title=':ribbon: 樣式卡', description='色碼：'+palettes_hex, color=int(color_text[0]['colors'][0],16))
 	embed.set_image(url = color_text[0]['imageUrl'])
 	embed.add_field(name="作者", value='['+color_text[0]['userName']+']('+color_text[0]['url']+')')
-
-	await client.send_message(message.channel,bottext.get_text_patterns().format(message.author.mention))
-	await client.send_message(message.channel,embed=embed)
+	return embed
 
 	
