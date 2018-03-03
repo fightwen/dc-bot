@@ -10,7 +10,7 @@ import botemotion
 import botmsg
 
 client = discord.Client()
-test_mode = True
+test_mode = False
 ishope = False
 hope_user=[]
 hope_time = 1.0
@@ -241,7 +241,6 @@ def check_user_has_hope_bonus(message,hope_user):
 	return done_bonus
 
 def get_hope_time(test_mode):
-	test_mode=False
 	if(test_mode):
 		return 1
 	return 60*60*2
