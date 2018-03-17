@@ -1,5 +1,10 @@
+import os
+
+
 def get_bot_token(test_mode):
+	token_test = os.environ.get('DISCORD_BOT_TEST_TOKEN','')
+	token = os.environ.get('DISCORD_BOT_TOKEN','')
 	if not test_mode:
-		return "MzY0MDA1MTE2NDM0NTc5NDU2.DXw91g.gNDnqnTqDQ_SrQE8Ban4yAxGLqw"
+		return token
 	else:
-		return "MzUxMjUzOTEwMDU4Njk2NzA0.DXHFYA.afubH-J4o1js6Rhs9EVhT3m89B4"
+		return token_test
